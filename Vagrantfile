@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 # v2.0
 # Author: Joe Axberg
-
+# Comment:  This vagrant file rocks
 
 Vagrant.configure("2") do |config|
     
