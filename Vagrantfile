@@ -25,11 +25,18 @@ Vagrant.configure("2") do |config|
      #installs the Apache web server
      #this block creates a script that will be run on the VM
      #the commands ran are between the <<-SHELL and SHELL
+     # apt upgrade
+     config.vm.provision "file", source: "phptest.php", destination: "phptest.php"
+
      web.vm.provision "shell", inline: <<-SHELL
      apt-get update
      apt-get install -y apache2
+     apt-get install -y php libapache2-mod-php php-mysql
+     systemctl restart apache2.service
+     cp phptest.php /var/www/html
+
      SHELL
-  
+
     end   #end of the web server do block
   
     #another block that defines the db server.
@@ -44,11 +51,21 @@ Vagrant.configure("2") do |config|
      #the web server
      db.vm.network "private_network", ip: "192.168.56.11"
 
+     #stage the mysql config file, the line below will copy the file from your laptop
+     #to the VM and put it in the /home/vagrant director (aka Vagrant's home directory)
+     config.vm.provision "file", source: "50-server.cnf", destination: "50-server.cnf"
+
      #add your awesome bash commands to install as much of a mysql
      #database server as you can
      db.vm.provision "shell", inline: <<-SHELL
      apt-get update
-     #apt-get install -y <what goes here>
+     apt install -y mariadb-server
+     git clone https://github.com/datacharmer/test_db.git
+     cd  test_db
+     mysql -t < employees.sql
+     cd ..
+     cp 50-server.cnf /etc/mysql/mariadb.conf.d/
+     systemctl restart mariadb
      SHELL
   
     end  #endof the db block
