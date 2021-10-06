@@ -34,7 +34,10 @@ Vagrant.configure("2") do |config|
      apt-get install -y php libapache2-mod-php php-mysql
      systemctl restart apache2.service
      cp phptest.php /var/www/html
-
+     echo "loading php web app"
+     git clone https://github.com/axbjos/phpcrudecrudapp.git
+     cd phpcrudecrudapp
+     mv * /var/www/html
      SHELL
 
     end   #end of the web server do block
