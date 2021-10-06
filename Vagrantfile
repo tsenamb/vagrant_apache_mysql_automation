@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
      #this block creates a script that will be run on the VM
      #the commands ran are between the <<-SHELL and SHELL
      # apt upgrade
-     config.vm.provision "file", source: "phptest.php", destination: "phptest.php"
+     web.vm.provision "file", source: "phptest.php", destination: "phptest.php"
 
      web.vm.provision "shell", inline: <<-SHELL
      apt-get update
@@ -53,7 +53,8 @@ Vagrant.configure("2") do |config|
 
      #stage the mysql config file, the line below will copy the file from your laptop
      #to the VM and put it in the /home/vagrant director (aka Vagrant's home directory)
-     config.vm.provision "file", source: "50-server.cnf", destination: "50-server.cnf"
+     db.vm.provision "file", source: "50-server.cnf", destination: "50-server.cnf"
+     db.vm.provision "file", source: "addusers.sql", destination: "addusers.sql"
 
      #add your awesome bash commands to install as much of a mysql
      #database server as you can
@@ -66,6 +67,10 @@ Vagrant.configure("2") do |config|
      cd ..
      cp 50-server.cnf /etc/mysql/mariadb.conf.d/
      systemctl restart mariadb
+     cd /home/vagrant
+     echo "securing mysql and adding joeaxberg user"
+     mysql -t < addusers.sql
+     echo "done"
      SHELL
   
     end  #endof the db block
