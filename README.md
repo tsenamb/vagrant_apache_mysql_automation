@@ -1,5 +1,3 @@
-# SENG3120 Software Process Improvement
+##Create 2-Tier LAMP Stack with Vagrant
 
-Repo for file/artifacts related to the SENG3120 Process Improvement Project
-
-Hi
+Description coming soon.
