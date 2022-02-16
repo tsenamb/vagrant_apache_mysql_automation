@@ -1,3 +1,3 @@
-##Create 2-Tier LAMP Stack with Vagrant
+Example Vagrant automation for creating a MariaDB (MySQL) with a sample database.
 
-Description coming soon.
+The user may still want to run "mysql_secure_installation" manually.
