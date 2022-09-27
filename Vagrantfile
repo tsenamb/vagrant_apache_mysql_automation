@@ -20,13 +20,10 @@ Vagrant.configure("2") do |config|
      #to talk to the db server 
      web.vm.network "forwarded_port", guest: 80, host: 80
      web.vm.network "private_network", ip: "192.168.56.10"
+        
+     #copy any needed files out to the vm
 
-     #set up a provision block and put in commands so that vagrant
-     #installs the Apache web server
-     #this block creates a script that will be run on the VM
-     #the commands ran are between the <<-SHELL and SHELL
-     # apt upgrade
- 
+     #set up a provision block to install and configure the apache/php server
 
      web.vm.provision "shell", inline: <<-SHELL
      #web provisioning goes here
@@ -46,11 +43,9 @@ Vagrant.configure("2") do |config|
      #the web server
      db.vm.network "private_network", ip: "192.168.56.11"
 
-     #stage the mysql config file, the line below will copy the file from your laptop
-     #to the VM and put it in the /home/vagrant director (aka Vagrant's home directory)
+     #copy any needed files out to the vm
 
-     #add your awesome bash commands to install as much of a mysql
-     #database server as you can
+     #set up a provision block to install and configure the DB
      db.vm.provision "shell", inline: <<-SHELL
      #db provisioning goes here
      SHELL
